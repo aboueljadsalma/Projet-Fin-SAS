@@ -153,4 +153,50 @@ function voter(){
     }
 
 }
+function modifier(){
+    const CinRecherche = prompt("Donner le CIN du candidat : ");
+    let trouve = false ;
+   
+    for(let candidat of candidats){
+        if(candidat.cin === CinRecherche){
+            candidat.age = Number(prompt("Entrez le nouvel âge :")) ;
+            candidat.partiPolitique = prompt("Donner le nouveau partiPolitique :");
+            trouve = true ;
+            break;
+       
+        }
+
+    }
+    if (trouve === false ){
+        console.log("Candidat introuvable");
+    }
+
+}
+function supprimer(){ 
+    const NCandidats = [];
+
+    let trouve = false ;
+
+    const CinASupprimer = prompt("Donner le CIN du candidat :");
+
+    for (let candidat of candidats){
+        if(candidat.cin !== CinASupprimer){
+             NCandidats.push(candidat);
+    
+        }
+        else{
+            trouve = true ;
+        }
+    }
+    
+     candidats = NCandidats;
+     if(trouve = false ){
+        console.log("Candidat Introuvable ");
+     }
+     else{
+        console.log("Candidat supprimé avec succès ");
+     }
+
+}
+
 
