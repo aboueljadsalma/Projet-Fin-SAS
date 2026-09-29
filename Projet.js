@@ -362,41 +362,52 @@ function rechercher() {
     }
 }
 function statistiques() {
-             console.log( "Nombre total de candidats : " + candidats.length ); 
-             let totalVotes = 0;
-             for (let candidat of candidats) {
-                 totalVotes = totalVotes + candidat.electeurs.length; 
-                } 
-                console.log("Nombre total de votes : " + totalVotes);
-                const classement = triParVotes(candidats); 
-                console.log("Top 3 des candidats :"); 
-                let limite = 3; 
-                if (classement.length < 3) { 
-                    limite = classement.length; 
-                } 
-                for (let i = 0; i < limite; i++) { 
-                    console.log( (i + 1) + ". " + classement[i].nom + " " + classement[i].prenom + " - " + classement[i].electeurs.length + " votes" ); 
-                }
-                const partis = []; 
-                const nombres = []; 
-                for (let candidat of candidats) { 
-                    let position = -1; 
-                    for (let i = 0; i < partis.length; i++) { 
-                        if (partis[i] === candidat.partiPolitique) { 
-                            position = i;
-                            break; 
-                        } 
-                    } 
-                    if (position === -1) {
-                         partis.push(candidat.partiPolitique);
-                          nombres.push(1);
-                         }
-                        else { 
-                            nombres[position]++;
-                        } 
-                    } 
-                    console.log("Nombre de candidats par parti :");
-                    for (let i = 0; i < partis.length; i++) { 
-                        console.log( partis[i] + " : " + nombres[i] ); 
-                    } 
-                }
+
+    console.log("Nombre total de candidats : " + candidats.length);
+
+    let totalVotes = 0;
+    for (let i = 0; i < candidats.length; i++) {
+        totalVotes += candidats[i].electeurs.length;
+    }
+    console.log("Nombre total de votes : " + totalVotes);
+
+    let classement = [...candidats];
+
+    classement.sort(function(a, b) {
+        return b.electeurs.length - a.electeurs.length;
+    });
+
+    console.log("Top 3 des candidats :");
+
+    let limite = Math.min(3, classement.length);
+
+    for (let i = 0; i < limite; i++) {
+        console.log(
+            (i + 1) + ". " +
+            classement[i].nom + " " +
+            classement[i].prenom +
+            " - " +
+            classement[i].electeurs.length +
+            " votes"
+        );
+    }
+
+    let partis = {};
+
+    for (let i = 0; i < candidats.length; i++) {
+
+        let parti = candidats[i].partiPolitique;
+
+        if (partis[parti] === undefined) {
+            partis[parti] = 1;
+        } else {
+            partis[parti]++;
+        }
+    }
+
+    console.log("Nombre de candidats par parti :");
+
+    for (let parti in partis) {
+        console.log(parti + " : " + partis[parti]);
+    }
+}
